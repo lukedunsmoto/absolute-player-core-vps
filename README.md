@@ -97,7 +97,11 @@ icons/               toolbar icons
 vendor/core/         @ffmpeg/core 0.12.10 (ffmpeg-core.js + .wasm, ~32 MB)
 ```
 
-## Licensing note
+## License
 
-`@ffmpeg/core` is a GPL build of FFmpeg (includes libx264/libx265). Fine for
-personal use; if you ever distribute this extension, the GPL applies.
+GPL-3.0-or-later. See [LICENSE](LICENSE) for the full text.
+
+The extension bundles `@ffmpeg/core`, a GPL build of FFmpeg configured with
+`--enable-gpl` and including libx264 and libx265. Those components are
+GPL-2.0-or-later, and this project exercises the "or later" option to
+distribute the combined work under GPL-3.0.
