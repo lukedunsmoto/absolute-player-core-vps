@@ -1,4 +1,4 @@
-# AbsolutePlayer
+# <img src="logo.svg" width="38" alt=""> AbsolutePlayer
 
 **Play the video formats your browser gave up on.**
 
