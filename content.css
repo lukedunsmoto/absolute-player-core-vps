@@ -1,0 +1,13 @@
+.wasm-video-player-frame {
+  border: 0;
+  max-width: 100%;
+  background: #000;
+  display: block;
+}
+
+/* "Force player above other page content" (Settings → Player). z-index only
+   applies to positioned elements, hence position: relative. */
+.wasm-video-player-frame.wvp-on-top {
+  position: relative !important;
+  z-index: 2147483647 !important;
+}

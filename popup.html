@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body {
+      width: 320px;
+      margin: 0;
+      padding: 14px;
+      background: #0f1115;
+      color: #e6e9ef;
+      font: 13px/1.5 system-ui, -apple-system, sans-serif;
+    }
+    h1 { font-size: 14px; margin: 0; }
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    /* toggle switch */
+    .switch { position: relative; width: 40px; height: 22px; flex: 0 0 auto; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #3a4150;
+      border-radius: 11px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.15s;
+    }
+    .switch input:checked + .slider { background: #7c3aed; }
+    .switch input:checked + .slider::before { transform: translateX(18px); }
+    #state-label { color: #9aa3b2; font-size: 12px; margin: -6px 0 12px; }
+    input[type="url"] {
+      width: 100%;
+      box-sizing: border-box;
+      background: #1a1e26;
+      color: inherit;
+      border: 1px solid #3a4150;
+      border-radius: 6px;
+      padding: 6px 8px;
+      font: inherit;
+    }
+    .row { display: flex; gap: 8px; margin-top: 10px; }
+    button {
+      flex: 1;
+      background: #7c3aed;
+      color: #fff;
+      border: 0;
+      border-radius: 6px;
+      padding: 7px 0;
+      font: inherit;
+      cursor: pointer;
+    }
+    button.secondary { background: #2a2f3a; }
+    p.hint { color: #9aa3b2; margin: 10px 0 0; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="header-row">
+    <h1>AbsolutePlayer</h1>
+    <label class="switch" title="Enable/disable interception">
+      <input type="checkbox" id="toggle" />
+      <span class="slider"></span>
+    </label>
+  </div>
+  <div id="state-label">…</div>
+
+  <input type="url" id="url" placeholder="https://example.com/video.mkv" />
+  <div class="row">
+    <button id="play">Play URL</button>
+    <button id="open" class="secondary">Open player</button>
+  </div>
+  <p class="hint">
+    When enabled, MKV/AVI/FLV links and embedded players are intercepted
+    automatically. The buttons above work either way.
+  </p>
+  <p class="hint" style="margin-top: 6px">
+    <a id="advanced" href="#" style="color: #a78bfa">Advanced settings</a>
+  </p>
+  <script src="popup.js"></script>
+</body>
+</html>

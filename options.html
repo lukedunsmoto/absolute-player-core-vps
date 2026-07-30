@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>AbsolutePlayer — Advanced settings</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      width: 860px;
+      height: 560px;
+      margin: 0;
+      display: flex;
+      background: #0f1115;
+      color: #e6e9ef;
+      font: 13px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    /* ---- sidebar ---- */
+    nav {
+      width: 190px;
+      flex: 0 0 auto;
+      background: #14161c;
+      border-right: 1px solid #262b35;
+      padding: 18px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 0 8px 16px;
+    }
+    .nav-item {
+      text-align: left;
+      background: none;
+      border: 0;
+      color: #9aa3b2;
+      font: inherit;
+      font-size: 13.5px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .nav-item.active {
+      background: #251d38;
+      color: #e6e9ef;
+      font-weight: 600;
+    }
+    .nav-item:hover:not(.active) { background: #1a1e26; color: #cdd3dd; }
+
+    /* ---- content ---- */
+    main {
+      flex: 1 1 auto;
+      padding: 26px 30px;
+      overflow-y: auto;
+    }
+    h1 { font-size: 19px; margin: 0 0 6px; }
+    p.lead { color: #9aa3b2; margin: 0 0 22px; font-size: 13px; }
+    h2 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #9aa3b2;
+      margin: 22px 0 10px;
+    }
+    .options-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+    .option {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: #1a1e26;
+      border: 1px solid #3a4150;
+      border-radius: 10px;
+      padding: 14px 16px;
+      cursor: pointer;
+    }
+    .option:has(input:checked) {
+      border-color: #7c3aed;
+      background: #1d1930;
+    }
+    .option input { margin-top: 3px; accent-color: #7c3aed; }
+    .option .title { font-weight: 600; font-size: 14px; }
+    .option .title i { font-style: italic; color: #a78bfa; }
+    .option p { margin: 5px 0 0; color: #9aa3b2; font-size: 12.5px; }
+    p.hint { color: #6b7280; font-size: 12px; margin: 12px 0 0; }
+
+    /* ---- toggle rows ---- */
+    .setting {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      justify-content: space-between;
+      background: #1a1e26;
+      border: 1px solid #3a4150;
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .setting .label { font-weight: 600; font-size: 14px; }
+    .setting p { margin: 5px 0 0; color: #9aa3b2; font-size: 12.5px; max-width: 520px; }
+    .switch { position: relative; width: 40px; height: 22px; flex: 0 0 auto; margin-top: 2px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #3a4150;
+      border-radius: 11px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.15s;
+    }
+    .switch input:checked + .slider { background: #7c3aed; }
+    .switch input:checked + .slider::before { transform: translateX(18px); }
+
+    /* ---- range slider ---- */
+    .setting.stacked { display: block; }
+    .range-wrap { margin: 16px 4px 0; }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: #3a4150;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #7c3aed;
+      border: 2px solid #e6e9ef;
+      cursor: pointer;
+    }
+    .ticks {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .ticks span {
+      flex: 1 1 0;
+      text-align: center;
+      cursor: pointer;
+    }
+    .ticks span:first-child { text-align: left; }
+    .ticks span:last-child { text-align: right; }
+    .ticks span.on { color: #a78bfa; font-weight: 600; }
+    .ticks b { display: block; font-weight: 600; font-size: 12.5px; color: inherit; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="brand">Settings</div>
+    <button class="nav-item active" data-section="player">Player</button>
+    <button class="nav-item" data-section="transcoding">Transcoding</button>
+    <button class="nav-item" data-section="network">Network</button>
+  </nav>
+
+  <main>
+    <section id="section-player">
+      <h1>Player</h1>
+      <p class="lead">How the player appears on pages it takes over.</p>
+
+      <h2>Stacking</h2>
+      <div class="setting">
+        <div>
+          <div class="label">Force player above other page content</div>
+          <p>Some sites leave their own controls, overlays or click-catchers on
+          top of the replaced video, which can hide the player or swallow
+          clicks. This gives the player frame the highest possible z-index so
+          it sits above them. Leave off unless a site actually covers the
+          player — it can also place the player over menus and banners that
+          are meant to be on top.</p>
+        </div>
+        <label class="switch" title="Force player above other page content">
+          <input type="checkbox" id="force-on-top" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <p class="hint">Applies immediately to players already on a page.</p>
+    </section>
+
+    <section id="section-transcoding" hidden>
+      <h1>Transcoding</h1>
+      <p class="lead">How videos are converted for playback.</p>
+
+      <h2>Quality</h2>
+      <div class="setting stacked">
+        <div class="label">Transcode quality</div>
+        <p>Encoder effort for streams that have to be re-encoded. Higher
+        settings look better and compress harder, but convert more slowly —
+        on large or high-resolution video, playback can end up waiting for the
+        converter. Streams that are copied unchanged (most MKV video) are
+        unaffected; for those, this only sets the audio bitrate.</p>
+        <div class="range-wrap">
+          <input type="range" id="transcode-quality" min="0" max="2" step="1" value="0" />
+          <div class="ticks">
+            <span data-idx="0">Normal<b>Fastest</b></span>
+            <span data-idx="1">High<b>~2× slower</b></span>
+            <span data-idx="2">Highest<b>~3–4× slower</b></span>
+          </div>
+        </div>
+      </div>
+
+      <h2>Remote files</h2>
+      <div class="options-row">
+        <label class="option">
+          <input type="radio" name="mode" value="stream" />
+          <div>
+            <div class="title">Transcode <i>while</i> Download</div>
+            <p>Stream, convert and play simultaneously when the server supports
+            byte ranges — playback starts in seconds, nothing is pre-downloaded.
+            Falls back automatically on servers that don't. (Default)</p>
+          </div>
+        </label>
+        <label class="option">
+          <input type="radio" name="mode" value="prefetch" />
+          <div>
+            <div class="title">Download <i>then</i> Transcode</div>
+            <p>Always download the whole file to disk first, then convert.
+            Most compatible; slower to first frame.</p>
+          </div>
+        </label>
+      </div>
+      <p class="hint">Changes apply from the next playback. Local files are unaffected.</p>
+    </section>
+
+    <section id="section-network" hidden>
+      <h1>Network</h1>
+      <p class="lead">How remote files are requested.</p>
+
+      <h2>Redirects</h2>
+      <div class="setting">
+        <div>
+          <div class="label">Cache resolved (redirected) sources</div>
+          <p>When a URL redirects to the real file, remember where it landed and
+          request each chunk from there — so a redirecting service is contacted
+          once per playback instead of once per chunk. Much faster on sources
+          behind a resolver. If the destination expires, it is re-resolved
+          automatically. Turn off if a source rejects reused links.</p>
+        </div>
+        <label class="switch" title="Cache resolved (redirected) sources">
+          <input type="checkbox" id="cache-resolved" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <h2>Transfer</h2>
+      <div class="setting stacked">
+        <div class="label">Network speed</div>
+        <p>Sets how much of a remote file is requested at a time. Faster
+        connections benefit from larger chunks: fewer round-trips means less
+        latency when seeking and higher throughput. On slower connections a
+        large chunk stalls playback while it downloads.</p>
+        <div class="range-wrap">
+          <input type="range" id="net-speed" min="0" max="2" step="1" value="0" />
+          <div class="ticks">
+            <span data-idx="0">Normal<b>8 MB</b></span>
+            <span data-idx="1">Fast<b>16 MB</b></span>
+            <span data-idx="2">Very Fast<b>32 MB</b></span>
+          </div>
+        </div>
+      </div>
+      <p class="hint">Changes apply from the next playback. Affects remote sources
+      streamed directly; local files are read from disk and unaffected.</p>
+    </section>
+  </main>
+
+  <script src="options.js"></script>
+</body>
+</html>

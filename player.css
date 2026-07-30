@@ -1,0 +1,111 @@
+:root {
+  color-scheme: dark;
+  --bg: #0f1115;
+  --panel: #1a1e26;
+  --text: #e6e9ef;
+  --muted: #9aa3b2;
+  --accent: #7c3aed;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--panel);
+  flex: 0 0 auto;
+}
+
+#title { font-weight: 600; }
+#filename {
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#status-panel {
+  padding: 10px 14px;
+  flex: 0 0 auto;
+}
+
+#status { margin-bottom: 8px; }
+
+#progress-track {
+  height: 6px;
+  border-radius: 3px;
+  background: #2a2f3a;
+  overflow: hidden;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.15s linear;
+}
+
+#actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+button, a[download] {
+  background: #2a2f3a;
+  color: var(--text);
+  border: 1px solid #3a4150;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button:hover, a[download]:hover { background: #333a48; }
+
+#log {
+  margin: 10px 0 0;
+  max-height: 180px;
+  overflow: auto;
+  background: #05070a;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font: 11px/1.5 ui-monospace, Menlo, monospace;
+  color: #9fb6a0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#picker { padding: 20px 14px; }
+
+#video {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  background: #000;
+  outline: none;
+}
+
+/* Embedded mode: player fills a small iframe, keep chrome minimal */
+body.embedded #header { display: none; }
+body.embedded #status-panel { padding: 6px 10px; }
+body.embedded.playing #status-panel { display: none; }

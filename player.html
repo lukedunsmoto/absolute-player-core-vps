@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>AbsolutePlayer</title>
+  <link rel="stylesheet" href="player.css" />
+</head>
+<body>
+  <div id="app">
+    <header id="header">
+      <span id="title">AbsolutePlayer</span>
+      <span id="filename"></span>
+    </header>
+
+    <section id="status-panel">
+      <div id="status">Starting…</div>
+      <div id="progress-track"><div id="progress-bar"></div></div>
+      <div id="actions">
+        <button id="btn-transcode" hidden>Force full transcode</button>
+        <a id="btn-download" hidden download>Save converted file</a>
+        <a id="btn-original" hidden download>Save original</a>
+        <button id="btn-log-toggle">Show log</button>
+      </div>
+      <pre id="log" hidden></pre>
+    </section>
+
+    <section id="picker" hidden>
+      <p>No source URL given. Pick a local video file to play:</p>
+      <input type="file" id="file-input" accept="video/*,.mkv,.avi,.flv,.wmv,.ts,.m2ts,.mts,.vob,.mpg,.mpeg,.3gp,.f4v,.ogm,.rm,.rmvb,.asf,.divx" />
+    </section>
+
+    <video id="video" controls hidden></video>
+  </div>
+
+  <script type="module" src="player.js"></script>
+</body>
+</html>
