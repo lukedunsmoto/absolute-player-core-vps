@@ -12,6 +12,10 @@ Playback starts immediately on a modern machine, and everything happens locally 
 
 ## Install
 
+[Get AbsolutePlayer on the Chrome Web Store](https://chromewebstore.google.com/detail/absoluteplayer/ffpklomeappfmkkaipcjgkdpgbbfpdaf)
+
+## Install from source
+
 1. Open `chrome://extensions`
 2. Enable **Developer mode** (top right)
 3. Click **Load unpacked** and select this folder
