@@ -12,6 +12,20 @@
   const ON_ERROR_INTERCEPT =
     /\.(mp4|m4v|mov|webm|ogv|mp2t)(\?|#|$)/i;
 
+  // adult-core-vps 0.3.2 serves originals through extensionless /media/<id>
+  // URLs. Only intercept a WMV explicitly identified by its player metadata;
+  // other formats share the same endpoint and must keep native playback.
+  function isCoreVpsWmv(video, url) {
+    try {
+      const parsed = new URL(url, document.baseURI);
+      return parsed.origin === location.origin &&
+        /^\/media\/[a-f0-9]{32}$/.test(parsed.pathname) &&
+        (video.dataset.probeType || "").split(";")[0].trim().toLowerCase() === "video/x-ms-wmv";
+    } catch {
+      return false;
+    }
+  }
+
   const handled = new WeakSet();
 
   // Enable/disable toggle (popup). Off = stop intercepting; already-swapped
@@ -76,7 +90,7 @@
     if (!url) return;
     const abs = absolute(url);
     if (!abs || !/^(https?|file):/i.test(abs)) return;
-    if (ALWAYS_INTERCEPT.test(abs)) replaceWithPlayer(video, abs);
+    if (ALWAYS_INTERCEPT.test(abs) || isCoreVpsWmv(video, abs)) replaceWithPlayer(video, abs);
   }
 
   // Catch decode/format failures on containers the browser normally accepts.
@@ -95,7 +109,7 @@
       const url = sourceURL(video);
       const abs = url && absolute(url);
       if (!abs || !/^(https?|file):/i.test(abs)) return;
-      if (ALWAYS_INTERCEPT.test(abs) || ON_ERROR_INTERCEPT.test(abs)) {
+      if (ALWAYS_INTERCEPT.test(abs) || ON_ERROR_INTERCEPT.test(abs) || isCoreVpsWmv(video, abs)) {
         replaceWithPlayer(video, abs);
       }
     },
